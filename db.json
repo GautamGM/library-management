@@ -1,0 +1,145 @@
+{
+    "books":[
+        {
+          "id": 1,
+          "Title": "To Kill a Mockingbird",
+          "Author": "Harper Lee",
+          "Genre": "Fiction",
+          "Publication Year": 1960
+        },
+        {
+          "id": 2,
+          "Title": "1984",
+          "Author": "George Orwell",
+          "Genre": "Dystopian",
+          "Publication Year": 1949
+        },
+        {
+          "id": 3,
+          "Title": "Pride and Prejudice",
+          "Author": "Jane Austen",
+          "Genre": "Romance",
+          "Publication Year": 1813
+        },
+        {
+          "id": 4,
+          "Title": "The Great Gatsby",
+          "Author": "F. Scott Fitzgerald",
+          "Genre": "Fiction",
+          "Publication Year": 1925
+        },
+        {
+          "id": 5,
+          "Title": "Moby-Dick",
+          "Author": "Herman Melville",
+          "Genre": "Adventure",
+          "Publication Year": 1851
+        },
+        {
+          "id": 6,
+          "Title": "War and Peace",
+          "Author": "Leo Tolstoy",
+          "Genre": "Historical Fiction",
+          "Publication Year": 1869
+        },
+        {
+          "id": 7,
+          "Title": "The Catcher in the Rye",
+          "Author": "J.D. Salinger",
+          "Genre": "Fiction",
+          "Publication Year": 1951
+        },
+        {
+          "id": 8,
+          "Title": "The Hobbit",
+          "Author": "J.R.R. Tolkien",
+          "Genre": "Fantasy",
+          "Publication Year": 1937
+        },
+        {
+          "id": 9,
+          "Title": "The Lord of the Rings",
+          "Author": "J.R.R. Tolkien",
+          "Genre": "Fantasy",
+          "Publication Year": 1954
+        },
+        {
+          "id": 10,
+          "Title": "The Chronicles of Narnia",
+          "Author": "C.S. Lewis",
+          "Genre": "Fantasy",
+          "Publication Year": 1950
+        },
+        {
+          "id": 11,
+          "Title": "Brave New World",
+          "Author": "Aldous Huxley",
+          "Genre": "Dystopian",
+          "Publication Year": 1932
+        },
+        {
+          "id": 12,
+          "Title": "The Picture of Dorian Gray",
+          "Author": "Oscar Wilde",
+          "Genre": "Gothic Fiction",
+          "Publication Year": 1890
+        },
+        {
+          "id": 13,
+          "Title": "Fahrenheit 451",
+          "Author": "Ray Bradbury",
+          "Genre": "Dystopian",
+          "Publication Year": 1953
+        },
+        {
+          "id": 14,
+          "Title": "The Alchemist",
+          "Author": "Paulo Coelho",
+          "Genre": "Adventure",
+          "Publication Year": 1988
+        },
+        {
+          "id": 15,
+          "Title": "Jane Eyre",
+          "Author": "Charlotte Brontë",
+          "Genre": "Romance",
+          "Publication Year": 1847
+        },
+        {
+          "id": 16,
+          "Title": "The Road",
+          "Author": "Cormac McCarthy",
+          "Genre": "Post-apocalyptic",
+          "Publication Year": 2006
+        },
+        {
+          "id": 17,
+          "Title": "The Outsiders",
+          "Author": "S.E. Hinton",
+          "Genre": "Young Adult",
+          "Publication Year": 1967
+        },
+        {
+          "id": 18,
+          "Title": "The Shining",
+          "Author": "Stephen King",
+          "Genre": "Horror",
+          "Publication Year": 1977
+        },
+        {
+          "id": 19,
+          "Title": "The Girl with the Dragon Tattoo",
+          "Author": "Stieg Larsson",
+          "Genre": "Mystery",
+          "Publication Year": 2005
+        },
+        {
+          "id": 20,
+          "Title": "The Handmaid's Tale",
+          "Author": "Margaret Atwood",
+          "Genre": "Dystopian",
+          "Publication Year": 1985
+        }
+      ]
+      
+}
