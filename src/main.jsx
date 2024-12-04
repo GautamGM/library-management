@@ -6,16 +6,16 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store.jsx";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import BookLayout from "./layouts/layout.jsx";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#9E1B32', // Primary color (blue)
+      main: "#9E1B32", // Primary color (blue)
     },
     secondary: {
-      main: '#dc004e', // Secondary color (pink)
+      main: "#dc004e", // Secondary color (pink)
     },
   },
   typography: {
@@ -26,9 +26,11 @@ const theme = createTheme({
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-    <ThemeProvider theme={theme}>
-   <BookLayout/>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
   </StrictMode>
 );

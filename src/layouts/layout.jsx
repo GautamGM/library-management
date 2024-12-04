@@ -101,6 +101,13 @@ const Drawer = styled(MuiDrawer, {
   ],
 }));
 
+const navOptions = [
+  { id: "1", link: "Home", to: "/" },
+  { id: "2", link: "All Books", to: "/books" },
+  { id: "3", link: "Manage Book", to: "/managebook" },
+  { id: "4", link: "About", to: "/about" },
+];
+
 const BookLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -116,24 +123,27 @@ const BookLayout = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{backgroundColor:"white",color:"black"}}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
+            
             onClick={handleDrawerOpen}
             edge="start"
             sx={[
               {
                 marginRight: 5,
+                backgroundColor:"black",
+                color:"white",
               },
-              open && { display: "none" },
+              open && { display: "none" }
             ]}
           >
-            <MenuIcon />
+            <MenuIcon sx={{'&:hover':{color:"black"}}}   />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-          Library Management System
+            Library Management System
           </Typography>
         </Toolbar>
       </AppBar>
@@ -149,8 +159,8 @@ const BookLayout = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Home", "All books", "Manage books", "About"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          {navOptions.map((text, index) => (
+            <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={[
                   {
@@ -183,18 +193,24 @@ const BookLayout = () => {
                 >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText
-                  primary={text}
+                <NavLink
+                  to={`${text.to}`}
                   sx={[
                     open
                       ? {
                           opacity: 1,
+                         
                         }
                       : {
                           opacity: 0,
+                          
                         },
+                        
                   ]}
-                />
+                 
+                >
+                  {open ? text.link: ""}
+                </NavLink>
               </ListItemButton>
             </ListItem>
           ))}
@@ -203,6 +219,9 @@ const BookLayout = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        <h2>
+          <Outlet />
+        </h2>
         <h1>
           hsadhskadgfjksgajfsja Lorem ipsum dolor sit amet consectetur,
           adipisicing elit. Molestias vitae maiores doloremque voluptatem ullam
