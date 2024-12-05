@@ -15,7 +15,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import HomeIcon from '@mui/icons-material/Home';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import InfoIcon from '@mui/icons-material/Info';
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { NavLink } from "react-router-dom";
@@ -44,7 +47,7 @@ const closedMixin = (theme) => ({
   },
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
+export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
@@ -76,7 +79,7 @@ const AppBar = styled(MuiAppBar, {
   ],
 }));
 
-const Drawer = styled(MuiDrawer, {
+export const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme }) => ({
   width: drawerWidth,
@@ -102,15 +105,15 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const navOptions = [
-  { id: "1", link: "Home", to: "/" },
-  { id: "2", link: "All Books", to: "/books" },
-  { id: "3", link: "Manage Book", to: "/managebook" },
-  { id: "4", link: "About", to: "/about" },
+  { id: "1", link: "Home", to: "/",icon:<HomeIcon/> },
+  { id: "2", link: "All Books", to: "/books",icon:<LibraryBooksIcon/> },
+  { id: "3", link: "Manage Book", to: "/managebook",icon:<ManageAccountsIcon/> },
+  { id: "4", link: "About", to: "/about",icon:<InfoIcon/> },
 ];
 
 const BookLayout = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -160,7 +163,7 @@ const BookLayout = () => {
         <Divider />
         <List>
           {navOptions.map((text, index) => (
-            <ListItem disablePadding sx={{ display: "block" }}>
+            <ListItem key={index} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={[
                   {
@@ -191,7 +194,7 @@ const BookLayout = () => {
                         },
                   ]}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                 <NavLink to={text.to}> {text.icon}</NavLink>
                 </ListItemIcon>
                 <NavLink
                   to={`${text.to}`}
@@ -219,16 +222,9 @@ const BookLayout = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <h2>
+        <Box sx={{overflow:"auto"}}>
           <Outlet />
-        </h2>
-        <h1>
-          hsadhskadgfjksgajfsja Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Molestias vitae maiores doloremque voluptatem ullam
-          quibusdam. Similique consequuntur, cumque consectetur quis dolor
-          ratione dignissimos dolore, porro odit, explicabo deserunt delectus
-          provident.
-        </h1>
+        </Box>
       </Box>
     </Box>
   );
