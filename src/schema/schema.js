@@ -1,28 +1,21 @@
 import * as yup from "yup";
 
-export const userschema = yup.object().shape({
-  name: yup
+export const bookSchema = yup.object().shape({
+  Title: yup
     .string()
-    .required("Name is required")
+    .required("Title is required")
     .min(4, "Name must be at least 4 characters long"),
   
-  email: yup
+    Author: yup
     .string()
-    .email("Invalid email address")
-    .required("Email is required"),
+    .required("Author is required"),
   
-  password: yup
+    Publication_Year: yup
     .string()
-    .required("Please enter a password")
-    .min(8, "Password must be at least 8 characters long")
-    .matches(/(?=.*[a-z])/, "Password must contain at least one lowercase letter")
-    .matches(/(?=.*[A-Z])/, "Password must contain at least one uppercase letter")
-    .matches(/(?=.*\d)/, "Password must contain at least one digit")
-    .matches(/(?=.*[@$!%*?&])/, "Password must contain at least one special character (@$!%*?&)"),
+    .matches(/^[0-9]{4}$/, "Please enter a valid year (e.g., 2024)")
+    .required("Year is required"),
   
-  confirm_password: yup
+    image: yup
     .string()
-    .oneOf([yup.ref("password")], "Passwords must match")
-    .required("Please confirm your password"),
 });
 

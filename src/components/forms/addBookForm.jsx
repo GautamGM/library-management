@@ -1,74 +1,46 @@
 import { useForm, Controller, set } from "react-hook-form";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import bgimge from "../../assets/images/chateimage.png";
 import { Link, useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userschema } from "../../Utilies/formSchema/formSchema";
-import { createUser, loginUser } from "../../Slices/userslice/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import MiniLoader from "../../loader/miniLoader/miniLoader";
-import { setDataToLocalStorage } from "../../Utilies/LocalStorge";
-const RegistterController = () => {
+import { bookSchema } from "../../schema/schema";
+const FormAddBook = ({setToggle}) => {
   const {
     handleSubmit,
     reset,
     control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(userschema),
+    resolver: yupResolver(bookSchema),
     mode: "onChange",
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirm_password: "",
+      Title: "",
+      Author: "",
+      Publication_Year: "",
+      image: "",
     },
   });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoading = useSelector((state) => state.user.isLoading);
+  
   // handel register function
 
   const handelRegister = (data) => {
-    try {
-      dispatch(createUser(data))
-        .unwrap()
-        .then((data) => {
-          toast.success(data.message);
-          if (data.statusCode === 200) {
-            navigate("/login");
-          }
-        })
-        .catch((error) => {
-          if (error === "You Are Already Registered") {
-            navigate("/login");
-            toast.info(error);
-          } else {
-            toast.error(error);
-          }
-          reset();
-        });
-    } catch (error) {
-      toast.error(error);
-    }
+   console.log(data,"book")
+   setToggle(true)
+   reset()
+   navigate("/managebook")
   };
 
+  console.log(errors)
   return (
     <Box
       sx={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh ",
-      }}
-      style={{
-        backgroundImage: "url('src/assets/images/mountain.png')",
-
-        backgroundPosition: "bottom", // Controls the position of the background
-        backgroundRepeat: "no-repeat", // Ensures the image doesn't repeat
-        backgroundSize: "cover", // Makes the background cover the container
       }}
     >
       <Box
@@ -79,66 +51,38 @@ const RegistterController = () => {
           alignItems: "center",
           p: "40px 0",
           height: 580,
-          width: "67%",
-          borderRadius: 1,
+          width: "90%",
           backdropFilter: "blur(4px) saturate(200%)",
           WebkitBackdropFilter: "blur(4px) saturate(200%)", // Safari compatibility
           backgroundColor: "rgba(255, 255, 255, 0.24)",
-          border: "1px solid rgba(209, 213, 219, 0.3)",
+          padding:"5px"
         }}
       >
-        {/* background image of the registerrationpage */}
-        <Box sx={{ width: "50%" }}>
-          <img src={bgimge} className="w-[100%] h-[100%] bg-cover" alt="" />
-        </Box>
-
         {/* ------------------------------ */}
         {/* registerration form */}
         <Box
-          className=" h-[550px]  p-5 pl-[30px] mr-4"
+          className=" h-[470px] "
           sx={{
-            width: "50%",
+           width:"100%",
             backdropFilter: "blur(25px) saturate(200%)",
             WebkitBackdropFilter: "blur(25px) saturate(200%)", // Safari compatibility
             backgroundColor: "rgba(255, 255, 255, 0.83)",
-            borderRadius: "12px",
+            borderRadius: "5px",
             border: "1px solid rgba(209, 213, 219, 0.3)",
+            padding:"5px"
           }}
         >
           <Typography
             sx={{
               fontWeight: "700",
               fontSize: "30px",
-              color: "#FF4F5A",
-              textAlign: "center",
-              marginBottom: "5px",
+              textAlign: "start",
+              marginBottom: "20px",
             }}
           >
-            Create Your Account
+           Add book
           </Typography>
-          <Typography
-            sx={{
-              fontSize: "16px",
-              // color: "rgba(255, 255, 255, 0.8)",
-              color: "black",
-              textAlign: "center",
-              mb: 3, // Adds spacing below the description
-            }}
-          >
-            Please fill in the form below to get started. Already have an
-            account?{" "}
-            <Link
-              to="/login"
-              style={{
-                textDecoration: "underline",
-                color: "blue",
-                fontWeight: "500",
-              }}
-            >
-              Log in here.
-            </Link>
-          </Typography>
-          <Box className="p-2 w-[100%] ">
+          <Box className="p- w-[100%] ">
             <form
               className="flex flex-col h-[350px] justify-between  "
               onSubmit={handleSubmit(handelRegister)}
@@ -146,15 +90,15 @@ const RegistterController = () => {
               {/* name */}
               <Box>
                 <Controller
-                  name="name"
+                  name="Title"
                   control={control}
                   render={({ field }) => (
                     <TextField
                       id="outlined-basic"
-                      label="Name"
+                      label="Title"
                       variant="outlined"
-                      error={!!errors.name} // Show error if field has an error
-                      helperText={errors.name ? errors.name.message : ""}
+                      error={!!errors.Title} // Show error if field has an error
+                      helperText={errors.Title ? errors.Title.message : ""}
                       sx={{
                         width: "100%",
                         "& .MuiOutlinedInput-root": {
@@ -164,7 +108,7 @@ const RegistterController = () => {
                           },
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
-                          color: "#FF4F5A", // Label color when focused
+                          color: "black", // Label color when focused
                         },
                       }}
                       {...field}
@@ -177,15 +121,15 @@ const RegistterController = () => {
               {/* email input */}
               <Box>
                 <Controller
-                  name="email"
+                  name="Author"
                   control={control}
                   render={({ field }) => (
                     <TextField
                       id="outlined-basic"
-                      label="Email"
+                      label="Author"
                       variant="outlined"
-                      error={!!errors.email}
-                      helperText={errors.email?.message}
+                      error={!!errors.Author}
+                      helperText={errors.Author?.message}
                       sx={{
                         width: "100%",
                         "& .MuiOutlinedInput-root": {
@@ -195,7 +139,7 @@ const RegistterController = () => {
                           },
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
-                          color: "#FF4F5A", // Label color when focused
+                          color: "black", // Label color when focused
                         },
                       }}
                       {...field}
@@ -208,15 +152,15 @@ const RegistterController = () => {
               {/* password */}
               <Box>
                 <Controller
-                  name="password"
+                  name="Publication_Year"
                   control={control}
                   render={({ field }) => (
                     <TextField
                       id="outlined-basic"
-                      label="Password"
+                      label="Publication_Year"
                       variant="outlined"
-                      error={!!errors.password}
-                      helperText={errors.password?.message}
+                      error={!!errors.Publication_Year}
+                      helperText={errors.Publication_Year?.message}
                       sx={{
                         width: "100%",
                         "& .MuiOutlinedInput-root": {
@@ -226,7 +170,7 @@ const RegistterController = () => {
                           },
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
-                          color: "#FF4F5A", // Label color when focused
+                          color: "black", // Label color when focused
                         },
                       }}
                       {...field}
@@ -239,15 +183,15 @@ const RegistterController = () => {
               {/* confirm password */}
               <Box>
                 <Controller
-                  name="confirm_password"
+                  name="image"
                   control={control}
                   render={({ field }) => (
                     <TextField
                       id="outlined-basic"
-                      label=" Confirm Password"
+                      label="image url"
                       variant="outlined"
-                      error={!!errors.confirm_password}
-                      helperText={errors.confirm_password?.message}
+                      error={!!errors.image}
+                      helperText={errors.image?.message}
                       sx={{
                         width: "100%",
                         "& .MuiOutlinedInput-root": {
@@ -257,7 +201,7 @@ const RegistterController = () => {
                           },
                         },
                         "& .MuiInputLabel-root.Mui-focused": {
-                          color: "#FF4F5A", // Label color when focused
+                          color: "black", // Label color when focused
                         },
                       }}
                       {...field}
@@ -269,17 +213,18 @@ const RegistterController = () => {
               <Button
                 type="submit"
                 variant={"contained"}
-                disabled={isLoading}
+                // disabled={isLoading}
                 sx={{
                   textTransform: "none",
                   height: "50px",
-                  backgroundColor: isLoading ? "white" : "#FF4F5A",
-                  // backgroundColor:"white",
+                  // backgroundColor: isLoading ? "white" : "#FF4F5A",
+                  backgroundColor:"blue",
                   fontSize: "22px",
                   fontWeight: "400",
+                  marginTop:"10px"
                 }}
               >
-                {isLoading ? <MiniLoader /> : "Singn up"}
+                Submit
               </Button>
             </form>
           </Box>
@@ -288,4 +233,4 @@ const RegistterController = () => {
     </Box>
   );
 };
-export default RegistterController;
+export default FormAddBook;
