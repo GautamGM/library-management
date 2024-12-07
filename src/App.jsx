@@ -29,6 +29,7 @@ function App() {
           <Route path="/managebook" element={<ManageBooks />} />
 
           <Route path="/about" element={<AboutPage />} />
+          <Route path="*"element={"Not Found"} />
         </Route>
       </Routes>
     </>

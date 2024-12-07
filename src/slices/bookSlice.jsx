@@ -118,7 +118,12 @@ const bookSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editbook.fulfilled, (state, action) => {
-      
+        const update=state.bookData.map((prev)=>prev)
+        console.log(update,"update in prev of map")
+
+        state.bookData = state.bookData.map((book)=>{
+          return book.id === action.payload.id ? action.payload : book;
+        })
         state.isLoading = false;
         
       })
