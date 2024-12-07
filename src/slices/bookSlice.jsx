@@ -8,6 +8,7 @@ export const fetchbooks = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const res = await api.get("/books");
+      console.log(res.data.reverse(), "sort data");
       if (res.status === 200) {
         return res.data;
       }
@@ -19,23 +20,21 @@ export const fetchbooks = createAsyncThunk(
 );
 
 //create book
-export const addbook=createAsyncThunk(
-  "book/addbook",async(data,thunkApi)=>{
-
-    try{
-      const res= await api.post("/books",data)
-      console.log(res,"response in thunk")
-      if(res.status===201){
-        return res.data
+export const addbook = createAsyncThunk(
+  "book/addbook",
+  async (data, thunkApi) => {
+    try {
+      const res = await api.post("/books", data);
+      console.log(res, "response in thunk");
+      if (res.status === 201) {
+        return res.data;
       }
-      return null
-    }catch(error){
-      throw thunkApi.rejectWithValue(error?.message)
+      return null;
+    } catch (error) {
+      throw thunkApi.rejectWithValue(error?.message);
     }
   }
-)
-
-
+);
 
 // delete books from teh api
 export const deletebooks = createAsyncThunk(
@@ -47,6 +46,23 @@ export const deletebooks = createAsyncThunk(
         return res.data;
       }
     } catch (error) {
+      throw thunkApi.rejectWithValue(error?.message);
+    }
+  }
+);
+
+// udate /edit book
+export const editbook = createAsyncThunk(
+  "book/editbook",
+  async ({id, data}, thunkApi) => {
+    try {
+      console.log(id,data, "######data for update in slice");
+      const res = await api.put(`/books/${id}`, data);
+      if(res.status===200){
+       return res.data
+      }
+    } catch (error) {
+      console.log(error, "error in catch of edit slice 63");
       throw thunkApi.rejectWithValue(error?.message);
     }
   }
@@ -75,28 +91,41 @@ const bookSlice = createSlice({
         console.log(action.payload, "sdfsfsa");
         state.error = action.payload;
       })
-      .addCase(deletebooks.pending,(state)=>{
-        state.isLoading=true
+      .addCase(deletebooks.pending, (state) => {
+        state.isLoading = true;
       })
-      .addCase(deletebooks.fulfilled,(state,action)=>{
-        state.bookData=state.bookData.filter((book)=>book.id!==action.payload.id)
-        state.isLoading=false
+      .addCase(deletebooks.fulfilled, (state, action) => {
+        state.bookData = state.bookData.filter(
+          (book) => book.id !== action.payload.id
+        );
+        state.isLoading = false;
       })
-      .addCase(deletebooks.rejected,(state,action)=>{
-        state.isLoading=false
-        state.error=action.payload
+      .addCase(deletebooks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       })
-      .addCase(addbook.pending,(state)=>{
-        state.isLoading=true
+      .addCase(addbook.pending, (state) => {
+        state.isLoading = true;
       })
-      .addCase(addbook.fulfilled,(state,action)=>{
-        state.bookData.unshift(action.payload)
-        state.isLoading=false
+      .addCase(addbook.fulfilled, (state, action) => {
+        state.bookData.unshift(action.payload);
+        state.isLoading = false;
       })
-      .addCase(addbook.rejected,(state,action)=>{
-        state.isLoading=false,
-        state.error=action.payload
+      .addCase(addbook.rejected, (state, action) => {
+        (state.isLoading = false), (state.error = action.payload);
       })
+      .addCase(editbook.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editbook.fulfilled, (state, action) => {
+      
+        state.isLoading = false;
+        
+      })
+      .addCase(editbook.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 

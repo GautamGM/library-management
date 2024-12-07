@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useForm, Controller, set } from "react-hook-form";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router";
@@ -5,13 +6,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { bookSchema } from "../../schema/schema";
-import { addbook } from "../../slices/bookSlice.jsx";
-const FormAddBook = ({ setToggle }) => {
+import { addbook, editbook, fetchbooks } from "../../slices/bookSlice.jsx";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useEffect } from "react";
+
+const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
   const {
     handleSubmit,
     reset,
     control,
     formState: { errors },
+    setValue,
+    getValues,
   } = useForm({
     resolver: yupResolver(bookSchema),
     mode: "onChange",
@@ -19,22 +25,79 @@ const FormAddBook = ({ setToggle }) => {
       Title: "",
       Author: "",
       Publication_Year: "",
+      Genre: "",
       image: "",
     },
   });
-
+  console.log(update, "update");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
+  const naviagte = useNavigate();
   // handel register function
 
-  const handelRegister = (data) => {
-    dispatch(addbook(data))
+  // add book
+  function handelAddBook(data, event) {
+    let action = event.nativeEvent.submitter.innerText;
+    console.log(action, "action+++++");
+    if (action === "udate") {
+      handelUpadate();
+    } else {
+      dispatch(addbook(data))
+        .unwrap()
+        .then((data) => {
+          if (data) {
+            toast.success("Book added successfully");
+            reset();
+          }
+        })
+        .catch((error) => {
+          console.log(error, "error in add book");
+        });
+    }
+  }
+  // --------------
+
+  // udate/edit Book detail
+  const handelUpadate = () => {
+    const data = getValues();
+    dispatch(editbook({ id: update.id, data }))
       .unwrap()
-      .then((data) => console.log(data, "-->addbook"))
+      .then((data) => {
+        if(data){
+          
+          setToggle(true)
+          setUpdateValue(null)
+          reset()
+        }
+      })
       .catch((error) => {
-        console.log(error, "error in add book");
+        console.log(error, "error data in catch in edit book 67");
       });
+  };
+
+  // useffect for set the value in intput field
+  useEffect(() => {
+    if (update !== null) {
+      setValue("Title", update?.Title ?? "");
+      setValue("Author", update?.Author ?? "");
+      setValue("Genre", update?.Genre ?? "");
+      setValue("Publication_Year", update?.Publication_Year ?? "");
+      setValue("image", update?.image ?? "");
+    }
+  }, [update]);
+
+  //
+
+  // aGo back to the manage book
+  const handelBack = () => {
+    if (update) {
+      setUpdateValue(null)
+      naviagte("/managebook");
+      setToggle(true);
+      reset();
+    } else {
+      setToggle(true);
+      reset();
+    }
   };
 
   console.log(errors);
@@ -50,10 +113,9 @@ const FormAddBook = ({ setToggle }) => {
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "center",
           alignItems: "center",
           p: "40px 0",
-          height: 580,
+          height: 640,
           width: "90%",
           backdropFilter: "blur(4px) saturate(200%)",
           WebkitBackdropFilter: "blur(4px) saturate(200%)", // Safari compatibility
@@ -61,18 +123,33 @@ const FormAddBook = ({ setToggle }) => {
           padding: "5px",
         }}
       >
-        {/* ------------------------------ */}
-        {/* registerration form */}
+        <Button
+          onClick={handelBack}
+          variant="contained"
+          sx={{
+            backgroundColor: "black",
+            width: "150px",
+            padding: "10px",
+            borderRadius: "0px",
+            textAlign: "center",
+            marginBottom: "1.2rem",
+          }}
+        >
+          <KeyboardBackspaceIcon
+            sx={{ marginRight: "5px", fontSize: "30px" }}
+          />
+          Back
+        </Button>
+        {/* form */}
         <Box
-          className=" h-[470px] "
+          className=" h-[500px]  "
           sx={{
             width: "100%",
-            backdropFilter: "blur(25px) saturate(200%)",
-            WebkitBackdropFilter: "blur(25px) saturate(200%)", // Safari compatibility
-            backgroundColor: "rgba(255, 255, 255, 0.83)",
+            height: "570px",
             borderRadius: "5px",
-            border: "1px solid rgba(209, 213, 219, 0.3)",
-            padding: "5px",
+            // border: "1px solid rgba(209, 213, 219, 0.3)",
+            padding: "25px",
+            border: "2px solid black",
           }}
         >
           <Typography
@@ -83,14 +160,14 @@ const FormAddBook = ({ setToggle }) => {
               marginBottom: "20px",
             }}
           >
-            Add book
+            {update!==null ? "Update Book Details" : "Add New Book"}
           </Typography>
           <Box className="p- w-[100%] ">
             <form
-              className="flex flex-col h-[350px] justify-between  "
-              onSubmit={handleSubmit(handelRegister)}
+              className="flex flex-col h-[450px] justify-between  "
+              onSubmit={handleSubmit(handelAddBook)}
             >
-              {/* name */}
+              {/* Title */}
               <Box>
                 <Controller
                   name="Title"
@@ -121,7 +198,7 @@ const FormAddBook = ({ setToggle }) => {
               </Box>
               {/* ---- */}
 
-              {/* email input */}
+              {/* Author */}
               <Box>
                 <Controller
                   name="Author"
@@ -152,7 +229,7 @@ const FormAddBook = ({ setToggle }) => {
               </Box>
               {/* ---- */}
 
-              {/* password */}
+              {/* Publication_Year */}
               <Box>
                 <Controller
                   name="Publication_Year"
@@ -183,7 +260,37 @@ const FormAddBook = ({ setToggle }) => {
               </Box>
               {/* ---- */}
 
-              {/* confirm password */}
+              {/* Genre */}
+              <Box>
+                <Controller
+                  name="Genre"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      id="outlined-basic"
+                      label="Genre"
+                      variant="outlined"
+                      error={!!errors.Genre}
+                      helperText={errors.Genre?.message}
+                      sx={{
+                        width: "100%",
+                        "& .MuiOutlinedInput-root": {
+                          "&.Mui-focused input": {
+                            // color: "#FF4F5A",
+                            color: "black", // Text color when focused
+                          },
+                        },
+                        "& .MuiInputLabel-root.Mui-focused": {
+                          color: "black", // Label color when focused
+                        },
+                      }}
+                      {...field}
+                    />
+                  )}
+                />
+              </Box>
+              {/* ---- */}
+              {/* image url */}
               <Box>
                 <Controller
                   name="image"
@@ -191,7 +298,7 @@ const FormAddBook = ({ setToggle }) => {
                   render={({ field }) => (
                     <TextField
                       id="outlined-basic"
-                      label="image url"
+                      label="Image url"
                       variant="outlined"
                       error={!!errors.image}
                       helperText={errors.image?.message}
@@ -221,13 +328,14 @@ const FormAddBook = ({ setToggle }) => {
                   textTransform: "none",
                   height: "50px",
                   // backgroundColor: isLoading ? "white" : "#FF4F5A",
-                  backgroundColor: "blue",
+                  backgroundColor: "black",
                   fontSize: "22px",
                   fontWeight: "400",
                   marginTop: "10px",
+                  borderRadius: "0px",
                 }}
               >
-                Submit
+                {update ? "udate" : "Submit"}
               </Button>
             </form>
           </Box>

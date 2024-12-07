@@ -19,17 +19,18 @@ function App() {
   return (
     <>
       <Routes>
-      <Route path="/" element={<BookLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path="books" element={<AllBooksList />}>
-          {/* Nested routes under /books */}
-          <Route index element={<AllBooksList />} />
-          <Route path="detail/:id" element={<DetailOfBooks />} />
+        <Route path="/" element={<BookLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="books" element={<AllBooksList />}>
+            {/* Nested routes under /books */}
+            <Route index element={<AllBooksList />} />
+            <Route path="detail/:id" element={<DetailOfBooks />} />
+          </Route>
+          <Route path="/managebook" element={<ManageBooks />} />
+
+          <Route path="/about" element={<AboutPage />} />
         </Route>
-        <Route path="/managebook" element={<ManageBooks />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Route>
-    </Routes>
+      </Routes>
     </>
   );
 }

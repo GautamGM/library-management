@@ -15,7 +15,9 @@ export const bookSchema = yup.object().shape({
     .matches(/^[0-9]{4}$/, "Please enter a valid year (e.g., 2024)")
     .required("Year is required"),
   
-    image: yup
+    Genre: yup
     .string()
+    .matches(/^[A-Za-z ]+$/, "Genre must contain only letters (no numbers or special characters)")
+    .required("Genre is required"),
 });
 

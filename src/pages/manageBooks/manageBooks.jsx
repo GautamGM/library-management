@@ -2,30 +2,37 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, IconButton, Button } from "@mui/material";
+import { Box, IconButton, Button, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deletebooks } from "../../slices/bookSlice";
+import { deletebooks, fetchbooks } from "../../slices/bookSlice";
 import FormAddBook from "../../components/forms/addBookForm";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const ManageBooks = () => {
-  const data = useSelector((state) => state.books.bookData);
+  const { bookData: data, isLoading } = useSelector((state) => state.books);
   const dispatch = useDispatch();
+  const naviagte=useNavigate()
   const [toggle, setToggle] = useState(true);
-
+  const [updateValue,setUpdateValue]=useState(null)
+  // handel edit book
   const handleEdit = (row) => {
     console.log("Edit book:", row);
+    setUpdateValue(row)
+    setToggle(false)
   };
-
+ 
+  // delete book
   const handleDelete = (id) => {
     dispatch(deletebooks(id))
       .unwrap()
       .then((data) => {
-        console.log(data, "data when it deletes");
+        if (data) toast.success("Book deleted successfully.");
       })
       .catch((error) => {
-        console.log(error, "error when we delete");
+        toast.error(error);
       });
   };
 
@@ -37,7 +44,7 @@ const ManageBooks = () => {
       field: "Publication_Year",
       headerName: "Publication Year",
       type: "number",
-      width: 90,
+      width: 160,
     },
     {
       field: "Genre",
@@ -46,12 +53,7 @@ const ManageBooks = () => {
       sortable: false,
       width: 160,
     },
-    {
-      field: "image",
-      headerName: "Image",
-      type: "number",
-      width: 150,
-    },
+
     {
       field: "actions",
       headerName: "Actions",
@@ -103,23 +105,28 @@ const ManageBooks = () => {
           display: toggle ? "none" : "block",
         }}
       >
-        <FormAddBook setToggle={setToggle} />
+        <FormAddBook setToggle={setToggle} update={updateValue} setUpdateValue={setUpdateValue}/>
       </Box>
-      <Box className="border p-2 w-[100%] flex justify-center overflow-auto ">
-        <Paper sx={{ height: 450, width: "90%", overflow: "auto" }}>
+      <Box
+        className={`border ${
+          toggle ? "block" : "hidden"
+        } p-2 w-[90%] mx-auto overflow-auto`}
+      >
+        <Typography>Books List</Typography>
+        <Paper sx={{ overflow: "auto", width: "80%", margin: "20px auto " }}>
           <DataGrid
             rows={data ? data.filter((row) => row != null) : []}
             columns={columns}
             initialState={{
               pagination: {
                 paginationModel: {
-                  pageSize: 5,
+                  pageSize: 10,
                 },
               },
             }}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
-            sx={{ border: 0, textAlign: "center", backgroundColor: "white" }}
+            
           />
         </Paper>
       </Box>
