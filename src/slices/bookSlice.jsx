@@ -18,6 +18,25 @@ export const fetchbooks = createAsyncThunk(
   }
 );
 
+//create book
+export const addbook=createAsyncThunk(
+  "book/addbook",async(data,thunkApi)=>{
+
+    try{
+      const res= await api.post("/books",data)
+      console.log(res,"response in thunk")
+      if(res.status===201){
+        return res.data
+      }
+      return null
+    }catch(error){
+      throw thunkApi.rejectWithValue(error?.message)
+    }
+  }
+)
+
+
+
 // delete books from teh api
 export const deletebooks = createAsyncThunk(
   "book/deletebooks",
@@ -65,6 +84,17 @@ const bookSlice = createSlice({
       })
       .addCase(deletebooks.rejected,(state,action)=>{
         state.isLoading=false
+        state.error=action.payload
+      })
+      .addCase(addbook.pending,(state)=>{
+        state.isLoading=true
+      })
+      .addCase(addbook.fulfilled,(state,action)=>{
+        state.bookData.unshift(action.payload)
+        state.isLoading=false
+      })
+      .addCase(addbook.rejected,(state,action)=>{
+        state.isLoading=false,
         state.error=action.payload
       })
   },

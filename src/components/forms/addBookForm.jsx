@@ -5,7 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { bookSchema } from "../../schema/schema";
-const FormAddBook = ({setToggle}) => {
+import { addbook } from "../../slices/bookSlice.jsx";
+const FormAddBook = ({ setToggle }) => {
   const {
     handleSubmit,
     reset,
@@ -24,17 +25,19 @@ const FormAddBook = ({setToggle}) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // handel register function
 
   const handelRegister = (data) => {
-   console.log(data,"book")
-   setToggle(true)
-   reset()
-   navigate("/managebook")
+    dispatch(addbook(data))
+      .unwrap()
+      .then((data) => console.log(data, "-->addbook"))
+      .catch((error) => {
+        console.log(error, "error in add book");
+      });
   };
 
-  console.log(errors)
+  console.log(errors);
   return (
     <Box
       sx={{
@@ -46,7 +49,7 @@ const FormAddBook = ({setToggle}) => {
       <Box
         sx={{
           display: "flex",
-          flexWrap:"wrap",
+          flexWrap: "wrap",
           justifyContent: "center",
           alignItems: "center",
           p: "40px 0",
@@ -55,7 +58,7 @@ const FormAddBook = ({setToggle}) => {
           backdropFilter: "blur(4px) saturate(200%)",
           WebkitBackdropFilter: "blur(4px) saturate(200%)", // Safari compatibility
           backgroundColor: "rgba(255, 255, 255, 0.24)",
-          padding:"5px"
+          padding: "5px",
         }}
       >
         {/* ------------------------------ */}
@@ -63,13 +66,13 @@ const FormAddBook = ({setToggle}) => {
         <Box
           className=" h-[470px] "
           sx={{
-           width:"100%",
+            width: "100%",
             backdropFilter: "blur(25px) saturate(200%)",
             WebkitBackdropFilter: "blur(25px) saturate(200%)", // Safari compatibility
             backgroundColor: "rgba(255, 255, 255, 0.83)",
             borderRadius: "5px",
             border: "1px solid rgba(209, 213, 219, 0.3)",
-            padding:"5px"
+            padding: "5px",
           }}
         >
           <Typography
@@ -80,7 +83,7 @@ const FormAddBook = ({setToggle}) => {
               marginBottom: "20px",
             }}
           >
-           Add book
+            Add book
           </Typography>
           <Box className="p- w-[100%] ">
             <form
@@ -218,10 +221,10 @@ const FormAddBook = ({setToggle}) => {
                   textTransform: "none",
                   height: "50px",
                   // backgroundColor: isLoading ? "white" : "#FF4F5A",
-                  backgroundColor:"blue",
+                  backgroundColor: "blue",
                   fontSize: "22px",
                   fontWeight: "400",
-                  marginTop:"10px"
+                  marginTop: "10px",
                 }}
               >
                 Submit

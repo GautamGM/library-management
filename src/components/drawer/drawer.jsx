@@ -23,7 +23,7 @@ const DetailOfBooks = () => {
                 <p className="text-[18px] border h-[20px] ml-2">{book.Title}</p>
               </Typography>
               {book.Publication_Year}
-              <p>About:{book.About_Book}</p>
+              <p>About:{book.About_Book?book.About_Book:<>-Lorem ipsum, dolor sit amet consectetur adipisicing elit.</>}</p>
             </Box>
           </Box>
         );
