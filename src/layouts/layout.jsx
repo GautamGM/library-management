@@ -113,7 +113,7 @@ const navOptions = [
 
 const BookLayout = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -126,7 +126,7 @@ const BookLayout = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor:"white",color:"black"}}>
+      <AppBar elevation={1} position="fixed" open={open} sx={{backgroundColor:"white",color:"black",}}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -220,9 +220,9 @@ const BookLayout = () => {
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p:0.5 }}>
         <DrawerHeader />
-        <Box sx={{overflow:"auto"}}>
+        <Box sx={{overflow:"auto",padding:"0px"}}>
           <Outlet />
         </Box>
       </Box>

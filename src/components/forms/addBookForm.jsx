@@ -63,13 +63,16 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
       .unwrap()
       .then((data) => {
         if(data){
-          
-          setToggle(true)
-          setUpdateValue(null)
+          toast.success("The book details have been successfully updated.");
           reset()
+          setTimeout(() => {
+            setToggle(true)
+          setUpdateValue(null)
+          }, 1000);
         }
       })
       .catch((error) => {
+        toast.error(error)
         console.log(error, "error data in catch in edit book 67");
       });
   };

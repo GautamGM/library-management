@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import { useNavigate } from "react-router-dom";
+import dummyBook from "../../../public/images/dummybook.jpg"
 const BookCard = ({ data }) => {
   const naviagte=useNavigate()
   // function for get detail of paticular book 
@@ -28,7 +29,7 @@ const BookCard = ({ data }) => {
         {/* Consistent height for images */}
         <CardMedia
           component="img"
-          image={data.image}
+          image={data.image?data.image:dummyBook}
           alt={data.Title}
           sx={{
             height: 200, // Fixed height for images

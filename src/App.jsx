@@ -8,7 +8,7 @@ import AllBooksList from "./pages/allBooks/allBooks";
 import AboutPage from "./pages/about/about";
 import ManageBooks from "./pages/manageBooks/manageBooks";
 import DetailOfBooks from "./components/drawer/drawer";
-// import DetailOfBooks from "./components/drawer/drawer";
+import NotFoundPage from "./pages/notfound/notFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function App() {
           <Route path="/managebook" element={<ManageBooks />} />
 
           <Route path="/about" element={<AboutPage />} />
-          <Route path="*"element={"Not Found"} />
+          <Route path="*"element={<NotFoundPage/>} />
         </Route>
       </Routes>
     </>
