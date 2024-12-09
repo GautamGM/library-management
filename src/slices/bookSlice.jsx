@@ -54,13 +54,13 @@ export const deletebooks = createAsyncThunk(
 // udate /edit book
 export const editbook = createAsyncThunk(
   "book/editbook",
-  async ({id, data}, thunkApi) => {
+  async ({ id, data }, thunkApi) => {
     try {
-      console.log(id,data, "######data for update in slice");
+      console.log(id, data, "######data for update in slice");
       const res = await api.put(`/books/${id}`, data);
-      console.log(res)
-      if(res.status===200){
-       return res.data
+      console.log(res);
+      if (res.status === 200) {
+        return res.data;
       }
     } catch (error) {
       console.log(error, "error in catch of edit slice 63");
@@ -71,7 +71,7 @@ export const editbook = createAsyncThunk(
 
 // slice of the book
 const bookSlice = createSlice({
-  name: "book",
+  name: "books",
   initialState: {
     bookData: [],
     isLoading: true,
@@ -119,11 +119,16 @@ const bookSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editbook.fulfilled, (state, action) => {
-        state.bookData = state.bookData.map((book)=>{
-          return book.id === action.payload.id ? action.payload : book;
-        })
+        const index = state.bookData?.findIndex(
+          (book) => book.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.bookData[index] = action.payload;
+        }
+        // state.bookData = state.bookData.map((book) => {
+        //   return book.id === action.payload.id ? action.payload : book;
+        // });
         state.isLoading = false;
-        
       })
       .addCase(editbook.rejected, (state, action) => {
         state.isLoading = false;

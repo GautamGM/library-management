@@ -14,16 +14,16 @@ import { useNavigate } from "react-router-dom";
 const ManageBooks = () => {
   const { bookData: data, isLoading } = useSelector((state) => state.books);
   const dispatch = useDispatch();
-  const naviagte=useNavigate()
+  const naviagte = useNavigate();
   const [toggle, setToggle] = useState(true);
-  const [updateValue,setUpdateValue]=useState(null)
+  const [updateValue, setUpdateValue] = useState(null);
   // handel edit book
   const handleEdit = (row) => {
     console.log("Edit book:", row);
-    setUpdateValue(row)
-    setToggle(false)
+    setUpdateValue(row);
+    setToggle(false);
   };
- 
+
   // delete book
   const handleDelete = (id) => {
     dispatch(deletebooks(id))
@@ -37,27 +37,27 @@ const ManageBooks = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "Title", headerName: "Title", width: 130 },
-    { field: "Author", headerName: "Author", width: 130 },
+    { field: "id", headerName: "ID", width: 120 },
+    { field: "Title", headerName: "Title", width: 180 },
+    { field: "Author", headerName: "Author", width: 180 },
     {
       field: "Publication_Year",
       headerName: "Publication Year",
       type: "number",
-      width: 160,
+      width: 180,
     },
     {
       field: "Genre",
       headerName: "Genre",
       description: "This column has a value getter and is not sortable.",
       sortable: false,
-      width: 160,
+      width: 180,
     },
 
     {
       field: "actions",
       headerName: "Actions",
-      width: 150,
+      width: 180,
       sortable: false,
       renderCell: (params) => (
         <>
@@ -82,15 +82,18 @@ const ManageBooks = () => {
     <Box className="outer-div-for-form">
       {toggle ? (
         <Button
+          component={Paper}
           sx={{
-            width: "150px",
-            border: "1px solid black",
-            padding: "10px",
+            width: "140px",
+            padding: "12px",
             marginBottom: "10px",
+            marginTop: "5px",
             backgroundColor: "black",
-            borderRadius: "0px",
+            borderRadius: "5px",
             color: "white",
             textTransform: "none",
+            position: "relative",
+            left: "5rem",
           }}
           onClick={() => setToggle(false)}
         >
@@ -105,18 +108,45 @@ const ManageBooks = () => {
           display: toggle ? "none" : "block",
         }}
       >
-        <FormAddBook setToggle={setToggle} update={updateValue} setUpdateValue={setUpdateValue}/>
+        <FormAddBook
+          setToggle={setToggle}
+          update={updateValue}
+          setUpdateValue={setUpdateValue}
+        />
       </Box>
       <Box
         className={`border ${
           toggle ? "block" : "hidden"
-        } p-2 w-[90%] mx-auto overflow-auto`}
+        } p-2 max-w-[90%] mx-auto overflow-auto`}
       >
-        <Typography>Books List</Typography>
-        <Paper sx={{ overflow: "auto", width: "80%", margin: "20px auto " }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: "500",
+            textDecorationLine: "underline",
+            color: "black",
+          }}
+        >
+          Manage Your Book Collection
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ mt: 2, fontSize: "1rem", color: "text.secondary" }}
+        >
+          In this section, you have full control over your book collection. You
+          can update book details, such as titles, authors etc to ensure
+          everything is accurate and current. Additionally, you can remove any
+          book from the collection when needed. This interface provides a simple
+          and intuitive way to keep your library organized and up-to-date.
+        </Typography>
+        <Paper sx={{ overflow: "auto", margin: "20px auto" }}>
           <DataGrid
             rows={data ? data.filter((row) => row != null) : []}
-            columns={columns}
+            columns={columns.map((column) => ({
+              ...column,
+              headerAlign: "right", // Align header text to the right
+              align: "right", // Align cell text to the right
+            }))}
             initialState={{
               pagination: {
                 paginationModel: {
@@ -126,7 +156,6 @@ const ManageBooks = () => {
             }}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
-            
           />
         </Paper>
       </Box>

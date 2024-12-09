@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
-
+import about from "../../../public/images/aboutRB.png";
 const AboutPage = () => {
   return (
     <Box
@@ -28,12 +28,12 @@ const AboutPage = () => {
           }}
         >
           <img
-            src="https://via.placeholder.com/400x300" // Replace with a relevant image
+            src={about}
             alt="Library Overview"
             style={{
               width: "100%",
               borderRadius: "10px",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              // boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             }}
           />
         </Box>

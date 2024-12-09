@@ -17,7 +17,14 @@ const HomePage = () => {
         {/* Right Section: Content */}
         <Box className="flex flex-col justify-center items-start px-10 space-y-6">
           {/* Title */}
-          <Typography variant="h2" className="text-4xl font-bold text-gray-800">
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              color: "black",
+              fontSize: { xs: "24px", sm: "30px", md: "35px", lg: "48px" },
+            }}
+          >
+            {/* text-gray-800 */}
             Welcome to Your Library Management System
           </Typography>
 
@@ -44,17 +51,17 @@ const HomePage = () => {
           </Typography>
 
           {/* Buttons */}
-          <Box className="space-x-4">
+          <Box className="  text-center">
             <NavLink to="/books">
-              <button className="px-6 py-2 h-[60px] bg-black text-white font-semibold rounded-[5px] hover:bg-gray-400 hover:text-black transition duration-300">
+              <button className="px-6 py-2 m-2 min-h-[50px] bg-black text-white  rounded-[3px] hover:bg-gray-400 hover:text-black transition duration-300">
                 View All Books
               </button>
             </NavLink>
-           <NavLink to="/managebook">
-           <button className="px-6 h-[60px] py-2 bg-blue-600 text-white font-semibold rounded-[5px] hover:bg-green-700 transition duration-300">
-              Manage Books
-            </button>
-           </NavLink>
+            <NavLink to="/managebook">
+              <button className="px-6 m-2 min-h-[50px] py-2 bg-blue-600 text-white  rounded-[3px] hover:bg-green-700 transition duration-300">
+                Manage Books
+              </button>
+            </NavLink>
           </Box>
         </Box>
       </Box>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import lostpage from "../../../public/images/lost.png"
+import lostpage from "../../../public/images/404pic.png"
 const NotFoundPage = () => {
   const navigate = useNavigate();
 

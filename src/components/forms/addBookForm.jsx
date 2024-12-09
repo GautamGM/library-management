@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useForm, Controller, set } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { bookSchema } from "../../schema/schema";
-import { addbook, editbook, fetchbooks } from "../../slices/bookSlice.jsx";
+import { addbook, editbook } from "../../slices/bookSlice.jsx";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useEffect } from "react";
-
-const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
+const FormAddBook = ({ setToggle, update, setUpdateValue }) => {
   const {
     handleSubmit,
     reset,
@@ -37,11 +36,18 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
   // add book
   function handelAddBook(data, event) {
     let action = event.nativeEvent.submitter.innerText;
-    console.log(action, "action+++++");
-    if (action === "udate") {
+    const newData = {
+      ...data,
+      image:
+        data.image.length > 0
+          ? data.image
+          : "https://imgs.search.brave.com/B-sPpTsz6R_fPqPwuPdFUEViKmQQJ40JhkjT4V5NMgY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTY3/MzM2MTUyL3Bob3Rv/L2Jvb2staW4tZHVt/bXktZmFjZS5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9Y1ZL/VlpJRUFoNUlHYUdu/UHM5Q3BqT3lwTzlO/S2loMEdsa3ZRbVFB/R1Rpcz0",
+    };
+
+    if (action === "update") {
       handelUpadate();
     } else {
-      dispatch(addbook(data))
+      dispatch(addbook(newData))
         .unwrap()
         .then((data) => {
           if (data) {
@@ -50,7 +56,7 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
           }
         })
         .catch((error) => {
-          console.log(error, "error in add book");
+          toast.error(error);
         });
     }
   }
@@ -62,17 +68,17 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
     dispatch(editbook({ id: update.id, data }))
       .unwrap()
       .then((data) => {
-        if(data){
+        if (data) {
           toast.success("The book details have been successfully updated.");
-          reset()
+          reset();
           setTimeout(() => {
-            setToggle(true)
-          setUpdateValue(null)
-          }, 1000);
+            setToggle(true);
+            setUpdateValue(null);
+          }, 500);
         }
       })
       .catch((error) => {
-        toast.error(error)
+        toast.error(error);
         console.log(error, "error data in catch in edit book 67");
       });
   };
@@ -86,14 +92,14 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
       setValue("Publication_Year", update?.Publication_Year ?? "");
       setValue("image", update?.image ?? "");
     }
-  }, [update]);
+  }, [update, setValue]);
 
   //
 
   // aGo back to the manage book
   const handelBack = () => {
     if (update) {
-      setUpdateValue(null)
+      setUpdateValue(null);
       naviagte("/managebook");
       setToggle(true);
       reset();
@@ -118,10 +124,10 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
           flexWrap: "wrap",
           alignItems: "center",
           p: "40px 0",
-          height: 640,
+          minHeight: 640,
           width: "90%",
           backdropFilter: "blur(4px) saturate(200%)",
-          WebkitBackdropFilter: "blur(4px) saturate(200%)", // Safari compatibility
+          WebkitBackdropFilter: "blur(4px) saturate(200%)",
           backgroundColor: "rgba(255, 255, 255, 0.24)",
           padding: "5px",
         }}
@@ -133,7 +139,7 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
             backgroundColor: "black",
             width: "150px",
             padding: "10px",
-            borderRadius: "0px",
+            borderRadius: "5px",
             textAlign: "center",
             marginBottom: "1.2rem",
           }}
@@ -145,10 +151,10 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
         </Button>
         {/* form */}
         <Box
-          className=" h-[500px]  "
+          className=" min-h-[500px]  "
           sx={{
             width: "100%",
-            height: "570px",
+            minHeight: "570px",
             borderRadius: "5px",
             // border: "1px solid rgba(209, 213, 219, 0.3)",
             padding: "25px",
@@ -163,7 +169,7 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
               marginBottom: "20px",
             }}
           >
-            {update!==null ? "Update Book Details" : "Add New Book"}
+            {update !== null ? "Update Book Details" : "Add New Book"}
           </Typography>
           <Box className="p- w-[100%] ">
             <form
@@ -332,13 +338,13 @@ const FormAddBook = ({ setToggle, update,setUpdateValue}) => {
                   height: "50px",
                   // backgroundColor: isLoading ? "white" : "#FF4F5A",
                   backgroundColor: "black",
-                  fontSize: "22px",
+                  fontSize: "16px",
                   fontWeight: "400",
                   marginTop: "10px",
-                  borderRadius: "0px",
+                  borderRadius: "5px",
                 }}
               >
-                {update ? "udate" : "Submit"}
+                {update ? "update" : "Submit"}
               </Button>
             </form>
           </Box>

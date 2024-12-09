@@ -7,15 +7,12 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store.jsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Toaster } from 'sonner';
+import { Toaster } from "sonner";
 
 const theme = createTheme({
   palette: {
     primary: {
       main: "#9E1B32", // Primary color (blue)
-    },
-    secondary: {
-      main: "#dc004e", // Secondary color (pink)
     },
   },
   typography: {
@@ -28,11 +25,10 @@ createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-       <App/>
-       <Toaster richColors  position="top-right" />
+          <App />
+          <Toaster richColors position="top-right" />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
-    
   </StrictMode>
 );

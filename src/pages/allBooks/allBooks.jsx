@@ -7,18 +7,18 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
-import BookCard from "../../components/booksCard/booksCard";
+import BookCard from "../../components/BooksCard/BooksCard";
 import { Box } from "@mui/material";
 import { Drawer, DrawerHeader } from "../../layouts/layout";
-import DetailOfBooks from "../../components/drawer/drawer";
+import DetailOfBooks from "../../components/deatilPage/detailPageofBook";
 import { Route, useParams } from "react-router-dom";
 const AllBooksList=()=>{
     const params = useParams();
     const {bookData,isLoading}=useSelector((state)=>state.books)
     console.log(bookData,"nooooo")
     return(
-       <div className="flex">
-         <div className="grid grid-cols-4 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4  " >
+       <div className="flex justify-center mt-5">
+         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  2xl:grid-cols-4  " >
             {bookData.map((book)=>{
                 return(
                     <Box sx={{margin:"5px"}}>
@@ -27,7 +27,9 @@ const AllBooksList=()=>{
                 )
             })}
         </div>
-         <DetailOfBooks data={bookData}/>
+        <Box >
+        <DetailOfBooks data={bookData}/>
+        </Box>
        </div>
     )
 }

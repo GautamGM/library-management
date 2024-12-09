@@ -15,12 +15,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import HomeIcon from '@mui/icons-material/Home';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import InfoIcon from '@mui/icons-material/Info';
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import HomeIcon from "@mui/icons-material/Home";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import InfoIcon from "@mui/icons-material/Info";
 import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
@@ -105,10 +103,15 @@ export const Drawer = styled(MuiDrawer, {
 }));
 
 const navOptions = [
-  { id: "1", link: "Home", to: "/",icon:<HomeIcon/> },
-  { id: "2", link: "All Books", to: "/books",icon:<LibraryBooksIcon/> },
-  { id: "3", link: "Manage Book", to: "/managebook",icon:<ManageAccountsIcon/> },
-  { id: "4", link: "About", to: "/about",icon:<InfoIcon/> },
+  { id: "1", link: "Home", to: "/", icon: <HomeIcon /> },
+  { id: "2", link: "All Books", to: "/books", icon: <LibraryBooksIcon /> },
+  {
+    id: "3",
+    link: "Manage Book",
+    to: "/managebook",
+    icon: <ManageAccountsIcon />,
+  },
+  { id: "4", link: "About", to: "/about", icon: <InfoIcon /> },
 ];
 
 const BookLayout = () => {
@@ -126,24 +129,28 @@ const BookLayout = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar elevation={1} position="fixed" open={open} sx={{backgroundColor:"white",color:"black",}}>
+      <AppBar
+        elevation={1}
+        position="fixed"
+        open={open}
+        sx={{ backgroundColor: "white", color: "black" }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            
             onClick={handleDrawerOpen}
             edge="start"
             sx={[
               {
                 marginRight: 5,
-                backgroundColor:"black",
-                color:"white",
+                backgroundColor: "black",
+                color: "white",
               },
-              open && { display: "none" }
+              open && { display: "none" },
             ]}
           >
-            <MenuIcon sx={{'&:hover':{color:"black"}}}   />
+            <MenuIcon sx={{ "&:hover": { color: "black" } }} />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Library Management System
@@ -164,65 +171,63 @@ const BookLayout = () => {
         <List>
           {navOptions.map((text, index) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: "initial",
-                      }
-                    : {
-                        justifyContent: "center",
-                      },
-                ]}
-              >
-                <ListItemIcon
+              <NavLink to={text.to}>
+                <ListItemButton
                   sx={[
                     {
-                      minWidth: 0,
-                      justifyContent: "center",
+                      minHeight: 48,
+                      px: 2.5,
                     },
                     open
                       ? {
-                          mr: 3,
+                          justifyContent: "initial",
                         }
                       : {
-                          mr: "auto",
+                          justifyContent: "center",
                         },
                   ]}
                 >
-                 <NavLink to={text.to}> {text.icon}</NavLink>
-                </ListItemIcon>
-                <NavLink
-                  to={`${text.to}`}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                         
-                        }
-                      : {
-                          opacity: 0,
-                          
-                        },
-                        
-                  ]}
-                 
-                >
-                  {open ? text.link: ""}
-                </NavLink>
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
+                        justifyContent: "center",
+                      },
+                      open
+                        ? {
+                            mr: 3,
+                          }
+                        : {
+                            mr: "auto",
+                          },
+                    ]}
+                  >
+                    <NavLink to={text.to}> {text.icon}</NavLink>
+                  </ListItemIcon>
+                  <NavLink
+                    to={`${text.to}`}
+                    sx={[
+                      open
+                        ? {
+                            opacity: 1,
+                          }
+                        : {
+                            opacity: 0,
+                          },
+                    ]}
+                  >
+                    {open ? text.link : ""}
+                  </NavLink>
+                </ListItemButton>
+              </NavLink>
             </ListItem>
           ))}
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p:0.5 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 0.5 }}>
         <DrawerHeader />
-        <Box sx={{overflow:"auto",padding:"0px"}}>
+        <Box>
           <Outlet />
         </Box>
       </Box>
